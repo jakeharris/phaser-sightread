@@ -1,0 +1,21 @@
+{
+  "name": "phaser-sightread",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Jake Harris <milieu@javakat.io>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/javakat/phaser-sightread",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser": "^2.6.1"
+  }
+}

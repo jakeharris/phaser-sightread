@@ -1,0 +1,22 @@
+{
+  "name": "phaser-sightread",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javakat/phaser-sightread.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/javakat/phaser-sightread/issues"
+  },
+  "homepage": "https://github.com/javakat/phaser-sightread#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
