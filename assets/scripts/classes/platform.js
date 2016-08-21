@@ -1,35 +1,39 @@
 // Basic rectangular platforms.
-class Platform {
+class Platform extends Phaser.Group {
   // x and y in unit blocks of 16x16px
   constructor (game, location, dimensions) {
     
+    super(game)
+    
+    this.enableBody = true
+    
     this.x = location.x
     this.y = location.y
-    this.width = dimensions.width
-    this.height = dimensions.height
+    this.dimensions = dimensions
     
-    this.game = game
+    // for some reason, doing
+    // this.width = dimensions.width
+    // would never set width to anything but 0.
+    // very odd behavior. I blame phaser. 
     
-    this.sprites = []
-    
-    for(var i = 0; i < this.width * this.height; i++)
-      if(i % this.width === 0)
-        if(Math.floor(i / this.width) === 0)
+    for(var i = 0; i < this.dimensions.width * this.dimensions.height; i++)
+      if(i % this.dimensions.width === 0)
+        if(Math.floor(i / this.dimensions.width) === 0)
           this.createBlock(i, Platform.Frames.TopLeft)
-        else if (Math.floor(i / this.width) === this.height - 1)
+        else if (Math.floor(i / this.dimensions.width) === this.dimensions.height - 1)
           this.createBlock(i, Platform.Frames.BottomLeft)
         else
           this.createBlock(i, Platform.Frames.CenterLeft)
-      else if(i % this.width === this.width - 1)
-        if(Math.floor(i / this.width) === 0)
+      else if(i % this.dimensions.width === this.dimensions.width - 1)
+        if(Math.floor(i / this.dimensions.width) === 0)
           this.createBlock(i, Platform.Frames.TopRight)
-        else if (Math.floor(i / this.width) === this.height - 1)
+        else if (Math.floor(i / this.dimensions.width) === this.dimensions.height - 1)
           this.createBlock(i, Platform.Frames.BottomRight)
         else
           this.createBlock(i, Platform.Frames.CenterRight)
-      else if (Math.floor(i / this.width) === 0)
+      else if (Math.floor(i / this.dimensions.width) === 0)
         this.createBlock(i, Platform.Frames.TopCenter)
-      else if (Math.floor(i / this.width) === this.height - 1)
+      else if (Math.floor(i / this.dimensions.width) === this.dimensions.height - 1)
         this.createBlock(i, Platform.Frames.BottomCenter)
       else
         this.createBlock(i, Platform.Frames.Center)
@@ -53,19 +57,17 @@ class Platform {
   }
   
   createBlock(i, which) {
-    this.sprites.push(
-      this.game.add.sprite(
-        this.getBlockStartingX(i), 
-        this.getBlockStartingY(i), 
-        'platforms',
-        which
-      )
+    this.create(
+      this.getBlockStartingX(i), 
+      this.getBlockStartingY(i), 
+      'platforms',
+      which
     )
   }
   getBlockStartingX (i) {
-    return this.x + ((i % this.width) * Platform.DEFAULT_BLOCK_SIZE)
+    return this.x + ((i % this.dimensions.width) * Platform.DEFAULT_BLOCK_SIZE)
   }
   getBlockStartingY (i) {
-    return this.y + (Math.floor(i / this.width) * Platform.DEFAULT_BLOCK_SIZE)
+    return this.y + (Math.floor(i / this.dimensions.width) * Platform.DEFAULT_BLOCK_SIZE)
   }
 }

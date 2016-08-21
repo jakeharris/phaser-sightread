@@ -3,7 +3,7 @@ class Main {
     this.game = game
     this.player = null
     this.background = null
-    this.platforms = []
+    this.platforms = null
   }
   
   configureGame() {
@@ -18,7 +18,8 @@ class Main {
   }
   
   createStartingPlatforms() {
-    this.platforms.push(new Platform(game, {x: -1, y: 30 }, {width: 60, height: 1}))
+    this.platforms = this.game.add.group(this.game, null, 'platforms')
+    this.platforms.add(new Platform(game, {x: -1, y: 30 }, {width: 60, height: 1}))
   }
   
   
