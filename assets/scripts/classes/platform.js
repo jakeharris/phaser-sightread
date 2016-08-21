@@ -2,17 +2,6 @@
 class Platform {
   // x and y in unit blocks of 16x16px
   constructor (game, location, dimensions) {
-    var DEFAULT_BLOCK_SIZE = 16,
-        TOP_LEFT_CORNER_FRAME_INDEX = 50,
-        TOP_CENTER_FRAME_INDEX = 51,
-        TOP_RIGHT_CORNER_FRAME_INDEX = 52,
-        LEFT_CENTER_FRAME_INDEX = 65,
-        CENTER_FRAME_INDEX = 66,
-        RIGHT_CENTER_FRAME_INDEX = 67,
-        BOTTOM_LEFT_FRAME_INDEX = 70,
-        BOTTOM_CENTER_FRAME_INDEX = 71,
-        BOTTOM_RIGHT_FRAME_INDEX = 72
-        
     
     this.x = location.x
     this.y = location.y
@@ -23,28 +12,60 @@ class Platform {
     
     this.sprites = []
     
-    
-    // TODO: fix the % on heights. that's not how anything works lmao
-    for(var i = 0; i < this.width * this.height, i++)
+    for(var i = 0; i < this.width * this.height; i++)
       if(i % this.width === 0)
-        if(i % this.height === 0)
-          this.sprites.push(this.game.add.sprite(this.x + (i %  * DEFAULT_BLOCK_SIZE), this.y + ())
-        else if (i % this.height === this.height - 1)
-          this.sprites.push('bottom-left')
+        if(Math.floor(i / this.width) === 0)
+          this.createBlock(i, Platform.Frames.TopLeft)
+        else if (Math.floor(i / this.width) === this.height - 1)
+          this.createBlock(i, Platform.Frames.BottomLeft)
         else
-          this.sprites.push('left')
+          this.createBlock(i, Platform.Frames.CenterLeft)
       else if(i % this.width === this.width - 1)
-        if(i % this.height === 0)
-          this.sprites.push('top-right')
-        else if (i % this.height === this.height - 1)
-          this.sprites.push('bottom-right')
+        if(Math.floor(i / this.width) === 0)
+          this.createBlock(i, Platform.Frames.TopRight)
+        else if (Math.floor(i / this.width) === this.height - 1)
+          this.createBlock(i, Platform.Frames.BottomRight)
         else
-          this.sprites.push('right')
-      else if (i % this.height === 0)
-        this.sprites.push('top')
-      else if (i % this.height === this.height - 1)
-        this.sprites.push('bottom')
+          this.createBlock(i, Platform.Frames.CenterRight)
+      else if (Math.floor(i / this.width) === 0)
+        this.createBlock(i, Platform.Frames.TopCenter)
+      else if (Math.floor(i / this.width) === this.height - 1)
+        this.createBlock(i, Platform.Frames.BottomCenter)
       else
-        this.sprites.push('center')
+        this.createBlock(i, Platform.Frames.Center)
+  }
+  
+  static get DEFAULT_BLOCK_SIZE () {
+    return 16
+  }
+  static get Frames () {
+    return Object.freeze({
+      TopLeft: 3,
+      TopCenter: 4,
+      TopRight: 5,
+      CenterLeft: 3,
+      Center: 4,
+      CenterRight: 5,
+      BottomLeft: 6,
+      BottomCenter: 7,
+      BottomRight: 8
+    })
+  }
+  
+  createBlock(i, which) {
+    this.sprites.push(
+      this.game.add.sprite(
+        this.getBlockStartingX(i), 
+        this.getBlockStartingY(i), 
+        'platforms',
+        which
+      )
+    )
+  }
+  getBlockStartingX (i) {
+    return this.x + ((i % this.width) * Platform.DEFAULT_BLOCK_SIZE)
+  }
+  getBlockStartingY (i) {
+    return this.y + (Math.floor(i / this.width) * Platform.DEFAULT_BLOCK_SIZE)
   }
 }
