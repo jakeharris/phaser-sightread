@@ -44,9 +44,9 @@ class Platform extends Phaser.Group {
   }
   static get Frames () {
     return Object.freeze({
-      TopLeft: 3,
-      TopCenter: 4,
-      TopRight: 5,
+      TopLeft: 0,
+      TopCenter: 1,
+      TopRight: 2,
       CenterLeft: 3,
       Center: 4,
       CenterRight: 5,
@@ -57,12 +57,16 @@ class Platform extends Phaser.Group {
   }
   
   createBlock(i, which) {
-    this.create(
+    var b = this.create(
       this.getBlockStartingX(i), 
       this.getBlockStartingY(i), 
       'platforms',
       which
     )
+    this.game.physics.enable(b)
+    b.body.checkCollision.up = true
+    b.body.allowGravity = false
+    b.body.immovable = true
   }
   getBlockStartingX (i) {
     return this.x + ((i % this.dimensions.width) * Platform.DEFAULT_BLOCK_SIZE)
